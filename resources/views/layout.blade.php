@@ -30,6 +30,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('sign-up.form') }}">Sign Up</a>
+                </li>
             </ul>
         </div>
     </div>

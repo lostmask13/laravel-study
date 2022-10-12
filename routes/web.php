@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovieController;
 
@@ -37,3 +38,7 @@ Route::group(['prefix' => '/movies', 'as' => 'movie.'], function () {
 
     Route::post('/{movie}/delete', [MovieController::class, 'delete'])->name('delete');
 });
+
+Route::get('/sign-up', [SignUpController::class, 'signUpForm'])->name('sign-up.form');
+Route::post('/sign-up', [SignUpController::class, 'signUp'])->name('sign-up');
+Route::get('/verify-email/{id}/{hash}', [SignUpController::class, 'verifyEmail'])->name('verify-email');
