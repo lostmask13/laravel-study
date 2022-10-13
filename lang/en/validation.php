@@ -173,6 +173,9 @@ return [
         'title' => 'Title',
         'year' => 'Year',
         'description' => 'Description',
+        'password' => 'Password',
+        'password_confirmation' => 'Confirm Password',
+        'checkbox' => 'I agree all terms and conditions'
     ],
 
 ];
