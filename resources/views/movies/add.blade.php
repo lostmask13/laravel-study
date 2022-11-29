@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Add Movie into library')
+@section('title', 'Add a Movie')
 
 @section('content')
 
@@ -9,7 +9,7 @@
     @endif
 
     <div class="row">
-        <h3>Add Movie into library</h3>
+        <h5>Add a Movie</h5>
         <form action="{{ route('movie.create') }}" method="post">
             @csrf
 
@@ -37,7 +37,29 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+
+
+            <div class="form-group my-2">
+                <label for="">{{ __('validation.attributes.genres') }}</label>
+                @foreach($genres as $genre)
+                    <div class="form-check">
+                        <input type="checkbox" name="genres[]" value="{{ $genre->id }}"
+                               class="form-check-input @error('genres') is-invalid @enderror"> {{ $genre->name }}
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="form-group my-2">
+                <label for="">{{ __('validation.attributes.actors') }}</label>
+                @foreach($actors as $actor)
+                    <div class="form-check">
+                        <input type="checkbox" name="actors[]" value="{{ $actor->id }}"
+                               class="form-check-input @error('actors') is-invalid @enderror"> {{ $actor->first_name }} {{ $actor->last_name }}
+                    </div>
+                @endforeach
+            </div>
+
+            <button class="btn btn-primary" type="submit">Add</button>
         </form>
     </div>
 @endsection
