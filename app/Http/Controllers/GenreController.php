@@ -36,12 +36,12 @@ class GenreController extends Controller
         return redirect()->route('genres.list', ['genre' => $genre->id]);
     }
 
-        public function editGenre(Genre $genre)
+    public function editGenre(Genre $genre)
     {
         return view('genres.edit', compact('genre'));
     }
 
-        public function list(Request $request)
+    public function list(Request $request)
     {
         $genres = Genre::query()->paginate(3);
 

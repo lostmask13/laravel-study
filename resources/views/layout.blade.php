@@ -31,40 +31,40 @@
                     <a class="nav-link" href="{{ route('login') }}">Sign In</a>
                 </li>
 
-                                @if (auth()->check())
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('movie.create') }}">Add movie</a>
-                </li>
+                @if (auth()->check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('movie.create') }}">Add movie</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
+                    </li>
 
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('genres.create.genre') }}">Add Genre</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('genres.create.genre') }}">Add Genre</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('genres.list') }}">Genres</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('genres.list') }}">Genres</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('actors.create.actor') }}">Add Actor</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('actors.create.actor') }}">Add Actor</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('actors.list') }}">Actors</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('actors.list') }}">Actors</a>
+                    </li>
 
-                                @endif
+                @endif
 
                 @if (auth()->check())
-                <form action="{{ route('logout') }}" method="post" class="form-inline">
-                    @csrf
-                    <button class="btn btn-danger">Log out</button>
-                </form>
-                                @endif
+                    <form action="{{ route('logout') }}" method="post" class="form-inline">
+                        @csrf
+                        <button class="btn btn-danger">Log out</button>
+                    </form>
+                @endif
 
             </ul>
         </div>

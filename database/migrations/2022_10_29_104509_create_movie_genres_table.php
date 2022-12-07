@@ -16,11 +16,13 @@ return new class extends Migration {
             $table->id();
 
             $table->unsignedBigInteger('movie_id');
-            $table->foreign('movie_id')->references('id')->on('movies');
+            $table->foreign('movie_id')->references('id')->on('movies')
+                ->cascadeOnDelete();
 
 
             $table->unsignedBigInteger('genre_id');
-            $table->foreign('genre_id')->references('id')->on('genres');
+            $table->foreign('genre_id')->references('id')->on('genres')
+                ->cascadeOnDelete();
         });
     }
 
