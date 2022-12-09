@@ -175,7 +175,16 @@ return [
         'description' => 'Description',
         'password' => 'Password',
         'password_confirmation' => 'Confirm Password',
-        'checkbox' => 'I agree all terms and conditions'
+        'checkbox' => 'I agree all terms and conditions',
+
+        'first_name' => 'First name',
+        'last_name' => 'Last name',
+        'patronymic' => 'Patronymic',
+        'date_of_birth' => 'Date of Birth',
+        'growth' => 'Growth',
+
+        'genres' => 'Genres',
+        'actors' => 'Actors',
     ],
 
 ];

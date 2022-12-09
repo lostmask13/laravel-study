@@ -25,14 +25,47 @@
                     <a class="nav-link" href="{{ route('about') }}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('movie.create') }}">Add movie into library</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('sign-up.form') }}">Sign Up</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Sign In</a>
+                </li>
+
+                @if (auth()->check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('movie.create') }}">Add movie</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('genres.create.genre') }}">Add Genre</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('genres.list') }}">Genres</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('actors.create.actor') }}">Add Actor</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('actors.list') }}">Actors</a>
+                    </li>
+
+                @endif
+
+                @if (auth()->check())
+                    <form action="{{ route('logout') }}" method="post" class="form-inline">
+                        @csrf
+                        <button class="btn btn-danger">Log out</button>
+                    </form>
+                @endif
+
             </ul>
         </div>
     </div>
@@ -41,8 +74,8 @@
     @include('flash-message')
     @yield('content')
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
+{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"--}}
+{{--        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"--}}
+{{--        crossorigin="anonymous"></script>--}}
 </body>
 </html>

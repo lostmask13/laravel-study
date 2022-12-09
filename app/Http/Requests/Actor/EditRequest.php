@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Movie;
+namespace App\Http\Requests\Actor;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,13 +24,11 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'min:1', 'max:255'],
-            'year' => ['required', 'numeric'],
-            'description' => ['required', 'min:100'],
-            'genres' => ['required', 'array', 'min:1'],
-            'genres.*' => ['required', 'exists:genres,id'],
-            'actors' => ['required', 'array', 'min:1'],
-            'actors.*' => ['required', 'exists:actors,id'],
+            'first_name' => ['required', 'min:1', 'max:30'],
+            'last_name' => ['required', 'min:1', 'max:50'],
+            'patronymic' => ['required', 'min:1', 'max:50'],
+            'date_of_birth' => ['required', 'date'],
+            'growth' => ['required', 'numeric'],
         ];
     }
 }
