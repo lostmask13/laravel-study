@@ -32,18 +32,21 @@
                 </li>
 
                 @if (auth()->check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('movie.create') }}">Add movie</a>
-                    </li>
+                    @can('create', \App\Models\Movie::class)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('movie.create') }}">Add movie</a>
+                        </li>
+                    @endcan
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('movie.list') }}">Movies</a>
                     </li>
 
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('genres.create.genre') }}">Add Genre</a>
-                    </li>
+                    @can('create', \App\Models\Genre::class)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('genres.create.genre') }}">Add Genre</a>
+                        </li>
+                    @endcan
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('genres.list') }}">Genres</a>
@@ -52,7 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('actors.create.actor') }}">Add Actor</a>
                     </li>
+                @endcan
 
+                @can('create', \App\Models\Actor::class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('actors.list') }}">Actors</a>
                     </li>
