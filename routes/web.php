@@ -29,7 +29,7 @@ Route::get('/contact-us', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('new-contact');
 
 
-Route::group(['prefix' => '/movies', 'as' => 'movie.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => '/movies', 'as' => 'movie.', 'middleware' => 'auth', 'user-verify'], function () {
     Route::get('', [MovieController::class, 'list'])->name('list');
     Route::get('/create', [MovieController::class, 'addMovie'])->name('create.form')
         ->middleware('can:create,' . Movie::class);
@@ -57,6 +57,9 @@ Route::post('/sign-in', [AuthController::class, 'signIn'])
     ->name('sign-in');
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
+
+Route::get('/login-history', [MainController::class, 'LoginHistory'])
+    ->name('login-history');
 
 Route::group(['prefix' => '/actors', 'as' => 'actors.', 'middleware' => 'auth'], function () {
     Route::get('/create', [ActorController::class, 'addActor'])
