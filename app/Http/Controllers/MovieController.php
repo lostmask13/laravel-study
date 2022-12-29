@@ -7,10 +7,15 @@ use App\Http\Requests\Movie\EditRequest;
 use App\Models\Actor;
 use App\Models\Genre;
 use App\Models\Movie;
+use App\Services\MovieService;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+    public function __construct(private MovieService $movieService)
+    {
+    }
+
     public function addMovie()
     {
         $genres = Genre::all();
@@ -21,12 +26,8 @@ class MovieController extends Controller
     public function create(CreateRequest $request)
     {
         $data = $request->validated();
-        $movie = new Movie($data);
         $user = $request->user();
-        $movie->user()->associate($user);
-        $movie->save();
-        $movie->genres()->attach($data['genres']);
-        $movie->actors()->attach($data['actors']);
+        $movie = $this->movieService->create($data, $user);
 
         session()->flash('success', 'Success!');
 
@@ -36,11 +37,7 @@ class MovieController extends Controller
     public function edit(Movie $movie, EditRequest $request)
     {
         $data = $request->validated();
-        $movie->fill($data);
-        $movie->genres()->sync($data['genres']);
-        $movie->actors()->sync($data['actors']);
-        $movie->save();
-
+        $movie = $this->movieService->edit($movie, $data);
         session()->flash('success', 'Success!');
 
         return redirect()->route('movie.show', ['movie' => $movie->id]);
