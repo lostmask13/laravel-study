@@ -2,59 +2,90 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Carbon;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 class User extends Authenticatable
 {
-    const ROLE_ADMIN = 'admin';
-
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    protected function password(): Attribute
+    /**
+     *
+     * @param $value
+     * @return \Carbon\Carbon|false
+     */
+    public function getCreatedAtAttribute($value)
     {
-        return Attribute::make(set: function ($value) {
-            return Hash::make($value);
-        });
+        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->timezone('Europe/Minsk');
     }
 
-    public function movies()
+    /**
+     *
+     * @param $value
+     * @return \Carbon\Carbon|false
+     */
+    public function getUpdatedAtAttribute($value)
     {
-        return $this->hasMany(Movie::class);
+        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->timezone('Europe/Minsk');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function profiles()
+    {
+        return $this->hasMany(Profile::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $notification = new ResetPassword($token);
+        $notification->createUrlUsing(function ($user, $token) {
+            return url(route('user.password.reset', [
+                'token' => $token,
+                'email' => $user->email
+            ]));
+        });
+        $this->notify($notification);
     }
 }

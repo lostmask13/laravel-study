@@ -22,6 +22,7 @@ return [
     'alpha_dash' => 'The :attribute must only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute must only contain letters and numbers.',
     'array' => 'The :attribute must be an array.',
+    'ascii' => 'The :attribute must only contain single-byte alphanumeric characters and symbols.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
     'between' => [
@@ -36,6 +37,7 @@ return [
     'date' => 'The :attribute is not a valid date.',
     'date_equals' => 'The :attribute must be a date equal to :date.',
     'date_format' => 'The :attribute does not match the format :format.',
+    'decimal' => 'The :attribute must have :decimal decimal places.',
     'declined' => 'The :attribute must be declined.',
     'declined_if' => 'The :attribute must be declined when :other is :value.',
     'different' => 'The :attribute and :other must be different.',
@@ -71,6 +73,7 @@ return [
     'ipv4' => 'The :attribute must be a valid IPv4 address.',
     'ipv6' => 'The :attribute must be a valid IPv6 address.',
     'json' => 'The :attribute must be a valid JSON string.',
+    'lowercase' => 'The :attribute must be lowercase.',
     'lt' => [
         'array' => 'The :attribute must have less than :value items.',
         'file' => 'The :attribute must be less than :value kilobytes.',
@@ -90,6 +93,7 @@ return [
         'numeric' => 'The :attribute must not be greater than :max.',
         'string' => 'The :attribute must not be greater than :max characters.',
     ],
+    'max_digits' => 'The :attribute must not have more than :max digits.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
@@ -98,6 +102,7 @@ return [
         'numeric' => 'The :attribute must be at least :min.',
         'string' => 'The :attribute must be at least :min characters.',
     ],
+    'min_digits' => 'The :attribute must have at least :min digits.',
     'multiple_of' => 'The :attribute must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
@@ -118,6 +123,7 @@ return [
     'required' => 'The :attribute field is required.',
     'required_array_keys' => 'The :attribute field must contain entries for: :values.',
     'required_if' => 'The :attribute field is required when :other is :value.',
+    'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
     'required_with_all' => 'The :attribute field is required when :values are present.',
@@ -135,7 +141,9 @@ return [
     'timezone' => 'The :attribute must be a valid timezone.',
     'unique' => 'The :attribute has already been taken.',
     'uploaded' => 'The :attribute failed to upload.',
+    'uppercase' => 'The :attribute must be uppercase.',
     'url' => 'The :attribute must be a valid URL.',
+    'ulid' => 'The :attribute must be a valid ULID.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
     /*
@@ -167,24 +175,9 @@ return [
     */
 
     'attributes' => [
-        'name' => 'Name',
-        'email' => 'Email',
-        'phone' => 'Phone number',
-        'title' => 'Title',
-        'year' => 'Year',
-        'description' => 'Description',
         'password' => 'Password',
         'password_confirmation' => 'Confirm Password',
-        'checkbox' => 'I agree all terms and conditions',
-
-        'first_name' => 'First name',
-        'last_name' => 'Last name',
-        'patronymic' => 'Patronymic',
-        'date_of_birth' => 'Date of Birth',
-        'growth' => 'Growth',
-
-        'genres' => 'Genres',
-        'actors' => 'Actors',
+        'checkbox' => 'I agree all terms and conditions'
     ],
 
 ];

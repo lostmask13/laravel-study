@@ -1,115 +1,143 @@
 <?php
 
-use App\Http\Controllers\ActorController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\GenreController;
-use App\Http\Controllers\MainController;
-use App\Http\Controllers\SignUpController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MovieController;
-use App\Models\Actor;
-use App\Models\Genre;
-use App\Models\Movie;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', 'IndexController')->name('index');
 
-Route::get('/', [MainController::class, 'index'])->name('main');
-Route::get('/about-us', [MainController::class, 'about'])->name('about');
-Route::get('/contact-us', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact-us', [ContactController::class, 'store'])->name('new-contact');
+Route::group([
+    'as' => 'catalog.',
+    'prefix' => 'catalog',
+], function () {
 
+    Route::get('index', 'CatalogController@index')
+        ->name('index');
 
-Route::group(['prefix' => '/movies', 'as' => 'movie.', 'middleware' => 'auth', 'user-verify'], function () {
-    Route::get('', [MovieController::class, 'list'])->name('list');
-    Route::get('/create', [MovieController::class, 'addMovie'])->name('create.form')
-        ->middleware('can:create,' . Movie::class);
-    Route::get('/{movie}', [MovieController::class, 'show'])->name('show');
-    Route::post('/create', [MovieController::class, 'create'])->name('create')
-        ->middleware('can:create,' . Movie::class);
-    Route::group(['prefix' => '/{movie}/edit', 'middleware' => 'can:edit,movie'], function () {
-        Route::get('', [MovieController::class, 'editMovie'])
-            ->name('edit.form');
-        Route::post('', [MovieController::class, 'edit'])
-            ->name('edit');
-    });
-    Route::post('/{movie}/delete', [MovieController::class, 'delete'])
-        ->name('delete');
+    Route::get('brand/{brand:slug}', 'CatalogController@brand')
+        ->name('brand');
+
+    Route::get('product/{product:slug}', 'CatalogController@product')
+        ->name('product');
+
+    Route::get('search', 'CatalogController@search')
+        ->name('search');
+    Route::get('contact', 'CatalogController@contact')
+        ->name('contact');
 });
 
+Route::group([
+    'as' => 'basket.',
+    'prefix' => 'basket',
+], function () {
 
-Route::get('/sign-up', [SignUpController::class, 'signUpForm'])->name('sign-up.form');
-Route::post('/sign-up', [SignUpController::class, 'signUp'])->name('sign-up');
-Route::get('/verify-email/{id}/{hash}', [SignUpController::class, 'verifyEmail'])->name('verify-email');
+    Route::get('index', 'BasketController@index')
+        ->name('index');
 
-Route::get('/sign-in', [AuthController::class, 'signInForm'])
-    ->name('login');
-Route::post('/sign-in', [AuthController::class, 'signIn'])
-    ->name('sign-in');
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout');
+    Route::get('checkout', 'BasketController@checkout')
+        ->name('checkout');
 
-Route::get('/login-history', [MainController::class, 'LoginHistory'])
-    ->name('login-history');
+    Route::post('profile', 'BasketController@profile')
+        ->name('profile');
 
-Route::group(['prefix' => '/actors', 'as' => 'actors.', 'middleware' => 'auth'], function () {
-    Route::get('/create', [ActorController::class, 'addActor'])
-        ->name('create.actor')
-        ->middleware('can:create,' . Actor::class);;
+    Route::post('saveorder', 'BasketController@saveOrder')
+        ->name('saveorder');
 
-    Route::post('/create', [ActorController::class, 'create'])
-        ->name('create')
-        ->middleware('can:create,' . Actor::class);;
+    Route::get('success', 'BasketController@success')
+        ->name('success');
 
-    Route::get('', [ActorController::class, 'list'])
-        ->name('list');
+    Route::post('add/{id}', 'BasketController@add')
+        ->where('id', '[0-9]+')
+        ->name('add');
 
-    Route::group(['prefix' => '/{actor}/edit', 'middleware' => 'can:edit,actor'], function () {
-        Route::get('', [ActorController::class, 'editActor'])
-            ->name('edit.actor');
-        Route::post('', [ActorController::class, 'edit'])
-            ->name('edit');
-    });
+    Route::post('plus/{id}', 'BasketController@plus')
+        ->where('id', '[0-9]+')
+        ->name('plus');
 
-    Route::get('/{actor}', [ActorController::class, 'show'])
-        ->name('show');
+    Route::post('minus/{id}', 'BasketController@minus')
+        ->where('id', '[0-9]+')
+        ->name('minus');
 
-    Route::post('/{actor}/delete', [ActorController::class, 'delete'])
-        ->name('delete');
+    Route::post('remove/{id}', 'BasketController@remove')
+        ->where('id', '[0-9]+')
+        ->name('remove');
+
+    Route::post('clear', 'BasketController@clear')
+        ->name('clear');
 });
 
-Route::group(['prefix' => '/genres', 'as' => 'genres.', 'middleware' => 'auth'], function () {
-    Route::get('/create', [GenreController::class, 'addGenre'])
-        ->name('create.genre')
-        ->middleware('can:create,' . Genre::class);
-
-    Route::post('/create', [GenreController::class, 'create'])
-        ->name('create')
-        ->middleware('can:create,' . Genre::class);
-
-    Route::get('', [GenreController::class, 'list'])
-        ->name('list');
-
-    Route::group(['prefix' => '/{genre}/edit', 'middleware' => 'can:edit,genre'], function () {
-        Route::get('', [GenreController::class, 'editGenre'])
-            ->name('edit.genre');
-        Route::post('', [GenreController::class, 'edit'])
-            ->name('edit');
-    });
-
-    Route::get('/{genre}', [GenreController::class, 'show'])
-        ->name('show');
-
-    Route::post('/{genre}/delete', [GenreController::class, 'delete'])
-        ->name('delete');
+Route::name('user.')->prefix('user')->group(function () {
+    Auth::routes();
 });
 
+Auth::routes(['verify' => true]);
+
+
+Route::group([
+    'as' => 'user.',
+    'prefix' => 'user',
+    'middleware' => ['auth']
+], function () {
+
+    Route::get('index', 'UserController@index')->name('index');
+    Route::resource('profile', 'ProfileController');
+    Route::get('order', 'OrderController@index')->name('order.index');
+    Route::get('order/{order}', 'OrderController@show')->name('order.show');
+});
+
+Route::group([
+    'as' => 'auth.',
+    'prefix' => 'auth',
+], function () {
+    Route::get('register', 'Auth\RegisterController@register')
+        ->name('register');
+    Route::post('register', 'Auth\RegisterController@create')
+        ->name('create');
+    Route::get('login', 'Auth\LoginController@login')
+        ->name('login');
+    Route::post('login', 'Auth\LoginController@authenticate')
+        ->name('auth');
+
+    Route::get('logout', 'Auth\LoginController@logout')
+        ->name('logout');
+
+    Route::get('forgot-password', 'Auth\ForgotPasswordController@form')
+        ->name('forgot-form');
+    // письмо на почту
+    Route::post('forgot-password', 'Auth\ForgotPasswordController@mail')
+        ->name('forgot-mail');
+
+    Route::get(
+        'reset-password/token/{token}/email/{email}',
+        'Auth\ResetPasswordController@form'
+    )->name('reset-form');
+
+    Route::post('reset-password', 'Auth\ResetPasswordController@reset')
+        ->name('reset-password');
+
+    Route::get('verify-message', 'Auth\VerifyEmailController@message')
+        ->name('verify-message');
+
+    Route::get('verify-email/token/{token}/id/{id}', 'Auth\VerifyEmailController@verify')
+        ->where('token', '[a-f0-9]{32}')
+        ->where('id', '[0-9]+')
+        ->name('verify-email');
+});
+
+Route::group([
+    'as' => 'admin.',
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+    'middleware' => ['auth', 'admin']
+], function () {
+
+    Route::get('index', 'IndexController')->name('index');
+    Route::resource('brand', 'BrandController');
+    Route::resource('product', 'ProductController');
+    Route::resource('order', 'OrderController', ['except' => [
+        'create', 'store', 'destroy'
+    ]]);
+    Route::resource('user', 'UserController', ['except' => [
+        'create', 'store', 'show', 'destroy'
+    ]]);
+
+});
